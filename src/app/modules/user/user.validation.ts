@@ -18,5 +18,5 @@ export const createAdminZodSchema = z.object({
       .optional(),
     profilePhoto: z.url('Profile photo must be a valid URL').optional(),
   }),
-  role: z.enum(['ADMIN', 'SUPER_ADMIN'], 'Role must be either ADMIN or SUPER_ADMIN'),
+  role: z.enum(['ADMIN'], 'Role must be either ADMIN'),
 });
