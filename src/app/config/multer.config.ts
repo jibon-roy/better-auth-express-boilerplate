@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
       .join('.')
       .toLowerCase()
       .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9\-]/g, '')
+      .replace(/[^a-z0-9-]/g, '')
       .substring(0, 20); // limit length
 
     const uniqueName =

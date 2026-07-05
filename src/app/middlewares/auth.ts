@@ -4,9 +4,9 @@ import { envVars } from '../config/env';
 import { prisma } from '../lib/prisma';
 import { CookieUtils } from '../utils/cookie';
 import { jwtUtils } from '../utils/jwt';
-import { Role, UserStatus } from '@prisma/client';
 import ApiError from '../errors/ApiError';
 import { StatusCodes } from 'http-status-codes';
+import { Role, UserStatus } from '../../generated/enums';
 
 export const checkAuth =
   (...authRoles: Role[]) =>
@@ -55,7 +55,10 @@ export const checkAuth =
             console.log('Session Expiring Soon!!');
           }
 
-          if (user.status === UserStatus.BLOCKED || user.status === UserStatus.DELETED) {
+          if (
+            user.status === UserStatus.BLOCKED ||
+            user.status === UserStatus.DELETED
+          ) {
             throw new ApiError(
               StatusCodes.UNAUTHORIZED,
               'Unauthorized access! User is not active.'
@@ -63,7 +66,10 @@ export const checkAuth =
           }
 
           if (user.isDeleted) {
-            throw new ApiError(StatusCodes.UNAUTHORIZED, 'Unauthorized access! User is deleted.');
+            throw new ApiError(
+              StatusCodes.UNAUTHORIZED,
+              'Unauthorized access! User is deleted.'
+            );
           }
 
           if (authRoles.length > 0 && !authRoles.includes(user.role)) {
@@ -100,13 +106,22 @@ export const checkAuth =
         );
       }
 
-      const verifiedToken = jwtUtils.verifyToken(accessToken, envVars.ACCESS_TOKEN_SECRET);
+      const verifiedToken = jwtUtils.verifyToken(
+        accessToken,
+        envVars.ACCESS_TOKEN_SECRET
+      );
 
       if (!verifiedToken.success) {
-        throw new ApiError(StatusCodes.UNAUTHORIZED, 'Unauthorized access! Invalid access token.');
+        throw new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'Unauthorized access! Invalid access token.'
+        );
       }
 
-      if (authRoles.length > 0 && !authRoles.includes(verifiedToken.data!.role as Role)) {
+      if (
+        authRoles.length > 0 &&
+        !authRoles.includes(verifiedToken.data!.role as Role)
+      ) {
         throw new ApiError(
           StatusCodes.FORBIDDEN,
           'Forbidden access! You do not have permission to access this resource.'

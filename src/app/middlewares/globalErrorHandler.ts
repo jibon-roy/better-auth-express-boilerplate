@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { errorlogger } from '../utils/logger';
-import { Prisma } from '@prisma/client';
 import { TErrorResponse, TErrorSources } from '../interface/error';
 import {
   handlePrismaClientKnownRequestError,
@@ -15,11 +15,13 @@ import { handleZodError } from '../errors/handleZodError';
 import z from 'zod';
 import { envVars } from '../config/env';
 import { deleteUploadedFilesFromGlobalErrorHandler } from '../utils/deleteUploadedFilesFromGlobalErrorHandler';
+import { Prisma } from '../../generated/client';
 
 export const globalErrorHandler = async (
   err: any,
   req: Request,
   res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
   if (envVars.NODE_ENV === 'development') {
