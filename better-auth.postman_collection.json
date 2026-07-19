@@ -1,10 +1,9 @@
 {
   "info": {
-    "_postman_id": "bd180a64-2b41-4120-ace9-4bca3df69b1b",
+    "_postman_id": "1aab134b-5daa-4e39-b86a-77a58ece6e7b",
     "name": "better-auth",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "14949870",
-    "_collection_link": "https://go.postman.co/collection/14949870-bd180a64-2b41-4120-ace9-4bca3df69b1b?source=collection_link"
+    "_exporter_id": "14949870"
   },
   "item": [
     {
@@ -236,6 +235,33 @@
           "response": []
         },
         {
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    // \"email\": \"mamun333089@gmail.com\",\r\n    \"email\": \"mamunrub@yopmail.com\",\r\n    // \"email\": \"ciquommauzoihau-4239@yopmail.com\",\r\n    // \"type\": \"email-verification\"\r\n    \"type\": \"forget-password\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{API_URL}}/auth/resend-otp",
+              "host": [
+                "{{API_URL}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Forget Password",
           "request": {
             "method": "POST",
@@ -366,7 +392,7 @@
               },
               "status": "Created",
               "code": 201,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",

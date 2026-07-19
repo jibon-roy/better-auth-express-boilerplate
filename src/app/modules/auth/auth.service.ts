@@ -388,6 +388,38 @@ const resetPassword = async (
   });
 };
 
+const resendOTP = async (
+  email: string,
+  type: 'email-verification' | 'forget-password'
+) => {
+  const isUserExist = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!isUserExist) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  if (isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
+    throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+
+  if (type === 'email-verification' && isUserExist.emailVerified) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Email already verified');
+  }
+
+  if (type === 'forget-password' && !isUserExist.emailVerified) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Email not verified');
+  }
+
+  await auth.api.sendVerificationOTP({
+    body: {
+      email,
+      type,
+    },
+  });
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const googleLoginSuccess = async (session: Record<string, any>) => {
   const isPlayerExists = await prisma.player.findUnique({
@@ -434,5 +466,6 @@ export const AuthService = {
   verifyEmail,
   forgetPassword,
   resetPassword,
+  resendOTP,
   googleLoginSuccess,
 };
