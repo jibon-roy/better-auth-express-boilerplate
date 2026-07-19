@@ -18,3 +18,25 @@
 ---
 
 - RESEND_API_KEY as EMAIL_SENDER_SMTP_PASS
+
+---
+
+# Project run
+
+- `pnpm install`
+- `pnpm dlx prisma generate`
+  don't use `pnpm push` this is postgresql. Use migration when you confirm that everything ready.
+- `pnpm dlx prisma migrate dev`
+- for production: `pnpm dlx prisma migrate deploy`
+
+### for check everything ok
+
+- `pnpm lint`
+
+### then build stage:
+
+- `pnpm build`
+
+### for dev:
+
+- `pnpm dev`
